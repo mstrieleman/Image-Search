@@ -1,2 +1,2 @@
 # Image-Search
-Allows users to search for images using instagrams api
+Allows narcissists to search for images using instagrams api
