@@ -1,2 +1,2 @@
 # Image-Search
-Allows narcissists to search for images using instagrams api
+Allows millennials to search for images using instagrams api
