@@ -1,0 +1,28 @@
+img {
+  width: 400px;
+  max-height: 250px;
+  margin-top: 1%;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  align-content: center;
+}
+
+body {
+  background-color: #eaedf2;
+  font-family: monospace;
+}
+
+form {
+  margin-top: 0.5%;
+  margin-right: 1%;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 2%;
+}
+
+.nav-link {
+  margin-left: 1rem;
+}
