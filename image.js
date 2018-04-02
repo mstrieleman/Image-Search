@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 
-const formData = new FormData(event);
-const data = {
-  url: 'https://api.flickr.com/services/rest/?',
-  method: 'method=flickr.photos.search&',
-  apiKey: 'api_key=e03c0952f82752553d79c8f7a18523f0&',
-  tags: 'tags=' + formData.get('search'),
-  output: '&format=json&nojsoncallback=1'
-};
-const request = data.url + data.method + data.apiKey + data.tags + data.output;
+// MDB Lightbox Init
+$(function() {
+  $('#mdb-lightbox-ui').load('mdb-addons/mdb-lightbox-ui.html');
+});
 
 export default class ImageSearch extends Component {
   constructor(props) {
@@ -21,60 +16,81 @@ export default class ImageSearch extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = {
+      url: 'https://api.flickr.com/services/rest/?',
+      method: 'method=flickr.photos.search&',
+      apiKey: 'api_key=e03c0952f82752553d79c8f7a18523f0&',
+      tags: 'tags=' + formData.get('search'),
+      sort: '&sort=relevance',
+      output: '&format=json&nojsoncallback=1'
+    };
+    const request =
+      data.url +
+      data.method +
+      data.apiKey +
+      data.tags +
+      data.sort +
+      data.output;
+
     fetch(request)
       .then(data => {
-        if (!data.ok) {
-          throw Error('Request Failed!');
-        }
         return data.json();
       })
       .then(data => {
-        for (let i = 0; i < data.photos.photo.length; i++) {
-          let farm = data.photos.photo[i].farm;
-          let server = data.photos.photo[i].server;
-          let id = data.photos.photo[i].id;
-          let secret = data.photos.photo[i].secret;
-          let imgSource =
-            'http://farm' +
-            farm +
-            '.static.flickr.com/' +
-            server +
-            '/' +
-            id +
-            '_' +
-            secret +
-            '.jpg';
-          this.state.images.push(imgSource);
-          console.log(this.state.images);
-          //MAYBE YOU SHOULD USE SET STATE
-        }
+        this.setState({
+          images: data.photos.photo.reduce(
+            (images, { farm, server, id, secret }) => {
+              return [
+                ...images,
+                `http://farm${farm}.static.flickr.com/${server}/${id}_${secret}.jpg`
+              ];
+            },
+            []
+          )
+        });
       });
     event.target.reset();
   }
 
   render() {
+    const images = this.state.images;
+    const imageElements = images.map(e => {
+      return (
+        <a href={`${e}`}>
+          <img src={`${e}`} class="img-fluid align-middle" key={e} />
+        </a>
+      );
+    });
     return (
-      <div className="images">
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="search" />
-            <input
-              name="search"
-              placeholder="Search images here!"
-              id="search"
-              type="text"
-              className="form-search"
-            />
-          </div>
-          <div className="form-group">
-            <button type="submit" className="btn main-btn">
-              Go!
-            </button>
-          </div>
-        </form>
-        <div>
-          <img src={this.state.images[0]} />
-        </div>
+      <div>
+        <nav class="navbar navbar-dark sticky-top bg-dark justify-content-between flex-wrap2 flex-md-nowrap p-0">
+          <form onSubmit={this.handleSubmit} class="form-group w-100 mr-2 p-0">
+            <div class="input-group py-1 px-2 px-md-0 flex-wrap">
+              <a
+                class="navbar-brand col-auto mr-0 "
+                style={{ color: '#e3f2fd' }}
+                href="#"
+              >
+                Image Searcher
+              </a>
+              <input
+                class="form-control mr-2"
+                type="text"
+                placeholder="Search for images here..."
+                aria-label="Search"
+                name="search"
+                id="search"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-info rounded" type="submit">
+                  <i class="fa fa-search" />
+                </button>
+              </div>
+            </div>
+          </form>
+        </nav>
+        {imageElements}
       </div>
     );
   }
