@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 
-// MDB Lightbox Init
-$(function() {
-  $('#mdb-lightbox-ui').load('mdb-addons/mdb-lightbox-ui.html');
-});
-
 export default class ImageSearch extends Component {
   constructor(props) {
     super(props);
