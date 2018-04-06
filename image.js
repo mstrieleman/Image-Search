@@ -13,8 +13,8 @@ export default class ImageSearch extends Component {
   }
 
   componentDidMount() {
-    initGeolocation((err, coordinates) => {
-      if (err) return console.warn(`ERROR: ${err.message}`);
+    initGeolocation((error, coordinates) => {
+      if (error) return console.warn(`ERROR(${error.code}): ${error.message}`);
       this.setState({
         coordinates
       });

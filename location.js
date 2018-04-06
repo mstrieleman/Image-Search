@@ -1,14 +1,14 @@
 import React from 'react';
 import ImageSearch from './image';
 
-function initGeolocation(done) {
+function initGeolocation(success) {
   if (navigator && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       position => {
-        done(null, position.coords);
+        success(null, position.coords);
       },
-      err => {
-        done(err);
+      error => {
+        success(error);
       }
     );
   } else {
