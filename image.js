@@ -7,11 +7,8 @@ import {
   longitude
 } from './location';
 
-const _0x2af3 = [
-  '\x61\x70\x69\x5F\x6B\x65\x79\x3D\x65\x30\x33\x63\x30\x39\x35\x32\x66\x38\x32\x37\x35\x32\x35\x35\x33\x64\x37\x39\x63\x38\x66\x37\x61\x31\x38\x35\x32\x33\x66\x30\x26'
-];
-const inconspicuousVariable = _0x2af3[0];
-const ref = inconspicuousVariable;
+var apiKey = 'api_key=e03c0952f82752553d79c8f7a18523f0&';
+var result = apiKey.hash;
 export default class ImageSearch extends Component {
   constructor(props) {
     super(props);
@@ -32,13 +29,18 @@ export default class ImageSearch extends Component {
     const data = {
       url: 'https://api.flickr.com/services/rest/?',
       method: 'method=flickr.photos.search&',
-      ref: ref,
+      apiKey: 'api_key=e03c0952f82752553d79c8f7a18523f0&',
       tags: 'tags=' + formData.get('search'),
       sort: '&sort=relevance',
       output: '&format=json&nojsoncallback=1'
     };
     const request =
-      data.url + data.method + data.ref + data.tags + data.sort + data.output;
+      data.url +
+      data.method +
+      data.apiKey +
+      data.tags +
+      data.sort +
+      data.output;
 
     fetch(request)
       .then(data => {
@@ -63,7 +65,7 @@ export default class ImageSearch extends Component {
     const data = {
       url: 'https://api.flickr.com/services/rest/?',
       method: 'method=flickr.photos.search&',
-      ref: ref,
+      apiKey: 'api_key=e03c0952f82752553d79c8f7a18523f0&',
       lat: 'lat=' + latitude + '&',
       lon: 'lon=' + longitude + '&',
       radius: 'radius=' + 20 + '&',
@@ -74,7 +76,7 @@ export default class ImageSearch extends Component {
     const request =
       data.url +
       data.method +
-      data.ref +
+      data.apiKey +
       data.lat +
       data.lon +
       data.radius +
