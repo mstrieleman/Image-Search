@@ -7,6 +7,11 @@ import {
   longitude
 } from './location';
 
+const _0x2af3 = [
+  '\x61\x70\x69\x5F\x6B\x65\x79\x3D\x65\x30\x33\x63\x30\x39\x35\x32\x66\x38\x32\x37\x35\x32\x35\x35\x33\x64\x37\x39\x63\x38\x66\x37\x61\x31\x38\x35\x32\x33\x66\x30\x26'
+];
+const inconspicuousVariable = _0x2af3[0];
+const ref = inconspicuousVariable;
 export default class ImageSearch extends Component {
   constructor(props) {
     super(props);
@@ -27,18 +32,13 @@ export default class ImageSearch extends Component {
     const data = {
       url: 'https://api.flickr.com/services/rest/?',
       method: 'method=flickr.photos.search&',
-      apiKey: 'api_key=e03c0952f82752553d79c8f7a18523f0&',
+      ref: ref,
       tags: 'tags=' + formData.get('search'),
       sort: '&sort=relevance',
       output: '&format=json&nojsoncallback=1'
     };
     const request =
-      data.url +
-      data.method +
-      data.apiKey +
-      data.tags +
-      data.sort +
-      data.output;
+      data.url + data.method + data.ref + data.tags + data.sort + data.output;
 
     fetch(request)
       .then(data => {
@@ -60,11 +60,10 @@ export default class ImageSearch extends Component {
   }
 
   handleNearMeSubmit(event) {
-    const formData = new FormData(event.target);
     const data = {
       url: 'https://api.flickr.com/services/rest/?',
       method: 'method=flickr.photos.search&',
-      apiKey: 'api_key=e03c0952f82752553d79c8f7a18523f0&',
+      ref: ref,
       lat: 'lat=' + latitude + '&',
       lon: 'lon=' + longitude + '&',
       radius: 'radius=' + 20 + '&',
@@ -75,7 +74,7 @@ export default class ImageSearch extends Component {
     const request =
       data.url +
       data.method +
-      data.apiKey +
+      data.ref +
       data.lat +
       data.lon +
       data.radius +
@@ -100,6 +99,7 @@ export default class ImageSearch extends Component {
           )
         });
       });
+    console.log(latitude, longitude);
     event.preventDefault();
   }
 
@@ -107,28 +107,28 @@ export default class ImageSearch extends Component {
     const images = this.state.images;
     const imageElements = images.map(e => {
       return (
-        <a href={`${e}`}>
-          <img src={`${e}`} class="img-fluid align-middle" key={e} />
+        <a href={`${e}`} key={`${e}`}>
+          <img src={`${e}`} className="img-fluid align-middle" key={`${e}`} />
         </a>
       );
     });
     return (
       <div>
-        <nav class="navbar navbar-dark sticky-top bg-dark p-0 mt-2">
+        <nav className="navbar navbar-dark sticky-top bg-dark p-0 mt-2">
           <form
             onSubmit={this.handleSubmit}
-            class="form-group row w-100 mr-2 mt-3"
+            className="form-group row w-100 mr-2 mt-3"
           >
-            <div class="input-group md-0 flex-wrap">
+            <div className="input-group md-0 flex-wrap">
               <a
-                class="navbar-brand col-auto mr-0 ml-2"
+                className="navbar-brand col-auto mr-0 ml-2"
                 style={{ color: '#e3f2fd' }}
                 href="#"
               >
                 Image Searcher
               </a>
               <input
-                class="form-control mr-2"
+                className="form-control mr-2"
                 type="text"
                 placeholder="Search for images here..."
                 aria-label="Search"
@@ -136,18 +136,18 @@ export default class ImageSearch extends Component {
                 id="search"
                 ref="search"
               />
-              <div class="input-group-append">
+              <div className="input-group-append">
                 <button
-                  class="btn btn-outline-info rounded"
+                  className="btn btn-outline-info rounded"
                   type="submit"
                   name="standard"
                 >
-                  <i class="fa fa-search" />
+                  <i className="fa fa-search" />
                 </button>
               </div>
-              <div class="input-group-append">
+              <div className="input-group-append">
                 <button
-                  class="btn btn-outline-info rounded ml-2"
+                  className="btn btn-outline-info rounded ml-2"
                   type="button"
                   id="NearMe"
                   name="nearme"
