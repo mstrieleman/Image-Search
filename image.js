@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
-import {
-  initGeolocation,
-  error,
-  success,
-  latitude,
-  longitude
-} from './location';
+import { initGeolocation } from './location';
 
-var apiKey = 'api_key=e03c0952f82752553d79c8f7a18523f0&';
-var result = apiKey.hash;
 export default class ImageSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      images: [],
+      coordinates: null
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNearMeSubmit = this.handleNearMeSubmit.bind(this);
   }
 
   componentDidMount() {
-    initGeolocation();
+    initGeolocation((err, coordinates) => {
+      if (err) return console.warn(`ERROR: ${err.message}`);
+      this.setState({
+        coordinates
+      });
+    });
   }
 
   handleSubmit(event) {
@@ -66,8 +64,8 @@ export default class ImageSearch extends Component {
       url: 'https://api.flickr.com/services/rest/?',
       method: 'method=flickr.photos.search&',
       apiKey: 'api_key=e03c0952f82752553d79c8f7a18523f0&',
-      lat: 'lat=' + latitude + '&',
-      lon: 'lon=' + longitude + '&',
+      lat: 'lat=' + this.state.coordinates.latitude + '&',
+      lon: 'lon=' + this.state.coordinates.longitude + '&',
       radius: 'radius=' + 20 + '&',
       tags: 'tags=' + this.refs.search.value,
       sort: '&sort=relevance',
@@ -101,7 +99,6 @@ export default class ImageSearch extends Component {
           )
         });
       });
-    console.log(latitude, longitude);
     event.preventDefault();
   }
 
@@ -149,6 +146,7 @@ export default class ImageSearch extends Component {
               </div>
               <div className="input-group-append">
                 <button
+                  disabled={!this.state.coordinates}
                   className="btn btn-outline-info rounded ml-2"
                   type="button"
                   id="NearMe"
